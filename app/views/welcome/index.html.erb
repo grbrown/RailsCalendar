@@ -1,0 +1,9 @@
+<!-- app/views/welcome/index.html.erb -->
+<h1>Welcome to the Simple Auth Example!</h1>
+
+<% if current_user %>
+  <p>You are logged in as <%= current_user.email %>.</p>
+  <%= link_to 'Logout', logout_path, method: :delete %>
+<% else %>
+  <%= link_to 'Login', login_path %>
+<% end %>

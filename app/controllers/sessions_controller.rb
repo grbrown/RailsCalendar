@@ -1,23 +1,22 @@
+# app/controllers/sessions_controller.rb
 class SessionsController < ApplicationController
-    def new
-    end
-  
-    def create
-      user = User.find_by(email: params[:session][:email].downcase)
-      if user && user.authenticate(params[:session][:password])
-        # Log in the user and redirect to their profile or dashboard
-        # For simplicity, let's just redirect to the root path for now
-        redirect_to root_path
-      else
-        flash.now[:danger] = 'Invalid email/password combination'
-        render 'new'
-      end
-    end
-  
-    def destroy
-      # Log out the user (implement this based on your authentication method)
-      # For simplicity, let's just redirect to the root path for now
-      redirect_to root_path
+  def new
+  end
+
+  def create
+    user = User.find_by(email: params[:email])
+
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect_to root_path, notice: 'Logged in successfully!'
+    else
+      flash.now[:alert] = 'Invalid email or password'
+      render 'new'
     end
   end
-  
+
+  def destroy
+    session[:user_id] = nil
+    redirect_to root_path, notice: 'Logged out successfully!'
+  end
+end
