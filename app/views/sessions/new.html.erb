@@ -1,5 +1,5 @@
 <!-- app/views/sessions/new.html.erb -->
-<h2>Login</h2>
+<h1>Login</h1>
 
 <%= form_tag sessions_path do %>
   <label for="email">Email:</label>
@@ -12,5 +12,5 @@
 
   <br>
 
-  <%= submit_tag 'Login' %>
+  <%= submit_tag 'Login' , class:"bg-blue-500 text-white font-semibold py-2 px-4 rounded" %>
 <% end %>

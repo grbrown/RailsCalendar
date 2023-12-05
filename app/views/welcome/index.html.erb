@@ -1,9 +1,13 @@
 <!-- app/views/welcome/index.html.erb -->
-<h1>Welcome to the Simple Auth Example!</h1>
+<h1 class='font-bold'>Schedule app</h1>
 
 <% if current_user %>
-  <p>You are logged in as <%= current_user.email %>.</p>
-  <%= link_to 'Logout', logout_path, method: :delete %>
+<div>
+  <p >You are logged in as <%= current_user.email %>.</p>
+  <%= link_to 'Logout', logout_path, class:'btn-primary', method: :delete %>
+</div>
 <% else %>
-  <%= link_to 'Login', login_path %>
+<div style='display:block'>
+  <%= link_to 'Login', login_path , class:'btn-primary' %>
+  </div>
 <% end %>
