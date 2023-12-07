@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'calendar', to:'calendar#index'
   resources :people
   resources :posts
   resources :sessions
