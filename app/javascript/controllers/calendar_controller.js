@@ -5,6 +5,8 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 export default class extends Controller {
   connect() {
+    const csrf = document.head.querySelector("meta[name=csrf-token]")?.content;
+    console.log(csrf);
     console.log("hello from calendar");
     var calendarEl = document.getElementById("calendar");
     var calendar = new Calendar(calendarEl, {
@@ -27,10 +29,30 @@ export default class extends Controller {
           start: info.dateStr, // a property!
           end: info.dateStr, // a property! ** see important note below about 'end' **
         };
+        const req = new Request("/api/v1/events", {
+          method: "POST",
+          body: JSON.stringify(myEvent),
+          headers: { "Content-Type": "application/json", "X-CSRF-Token": csrf },
+        });
+        //req.method = "POST";
+        fetch(req).then((response) => console.log(response.json()));
         calendar.addEvent(myEvent);
         info.dayEl.style.backgroundColor = "red";
+        console.log(calendar.getEvents());
       },
     });
+    calendar.addEvent({
+      title: "stock event",
+      start: "2023-12-01",
+      end: "2023-12-01",
+      editable: true,
+    });
     calendar.render();
+
+    fetch("/api/v1/events.json").then((response) =>
+      console.log(response.json())
+    );
+
+    fetch("/posts.json").then((response) => console.log(response.json()));
   }
 }

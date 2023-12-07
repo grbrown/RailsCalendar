@@ -17,4 +17,9 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy'
   # Defines the root path route ("/")
   # root "posts#index"
+  namespace :api do
+    namespace :v1 do
+      resources :events
+    end
+  end
 end
