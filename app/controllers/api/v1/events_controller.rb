@@ -18,7 +18,7 @@ class Api::V1::EventsController < ApplicationController
     logger.debug("userid#{current_user[:id]}")
     #event_params[:user_id] = current_user[:id]
     logger.debug("params #{event_params}")
-    @event = Event.new(name: event_params[:name], start: event_params[:start], end: event_params[:end], user_id: current_user[:id])
+    @event = Event.new(title: event_params[:title], start: event_params[:start], end: event_params[:end], user_id: current_user[:id])
 
     if @event.save
       render json: @event, status: :created
@@ -49,6 +49,6 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:name, :start, :end)
+    params.require(:event).permit(:title, :start, :end)
   end
 end

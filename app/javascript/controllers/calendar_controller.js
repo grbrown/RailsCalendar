@@ -25,7 +25,7 @@ export default class extends Controller {
         console.log(info);
         info.dateStr;
         const myEvent = {
-          title: "The Title", // a property!
+          title: "mymeeting", // a property!
           start: info.dateStr, // a property!
           end: info.dateStr, // a property! ** see important note below about 'end' **
         };
@@ -41,17 +41,22 @@ export default class extends Controller {
         console.log(calendar.getEvents());
       },
     });
-    calendar.addEvent({
-      title: "stock event",
-      start: "2023-12-01",
-      end: "2023-12-01",
-      editable: true,
-    });
+
     calendar.render();
 
-    fetch("/api/v1/events.json").then((response) =>
-      console.log(response.json())
-    );
+    fetch("/api/v1/events")
+      .then((response) => response.json())
+      .then((events) => {
+        console.log(events);
+        events.forEach((event) => {
+          console.log(JSON.stringify(event));
+          calendar.addEvent({
+            title: event.title,
+            start: event.start,
+            end: event.end,
+          });
+        });
+      });
 
     fetch("/posts.json").then((response) => console.log(response.json()));
   }
