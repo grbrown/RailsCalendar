@@ -2,16 +2,17 @@
 <h1>Login</h1>
 
 <%= form_tag sessions_path do %>
+  <div class="m-1">
   <label for="email">Email:</label>
   <%= text_field_tag :email %>
-
-  <br>
-
+  </div>
+  <div class="m-1">
   <label for="password">Password:</label>
   <%= password_field_tag :password %>
+  </div>
 
-  <br>
-
+  <div class="flex flex-row max-w-xl items-start">
   <%= submit_tag 'Login' , class:"btn-primary" %>
   <%= link_to 'Create an account', 'users/new' , class:'btn-primary' %>
+  </div>
 <% end %>
