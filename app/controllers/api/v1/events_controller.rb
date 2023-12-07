@@ -4,7 +4,7 @@ class Api::V1::EventsController < ApplicationController
 
   # GET /api/v1/events
   def index
-    @events = Event.all
+    @events = Event.where(user_id: current_user[:id])
     render json: @events
   end
 
