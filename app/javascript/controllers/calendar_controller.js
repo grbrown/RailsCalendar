@@ -4,34 +4,34 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 export default class extends Controller {
-  static targets = [
-    "start",
-    "end",
-    "title",
-    "save",
-    "delete",
-    "userid",
-    "eventid",
-  ];
+  static targets = ["start", "end", "title", "save", "delete"];
 
-  eventData = [];
   userid = NaN;
   calendar = null;
-  clickedEventId = NaN;
   clickedEventInfo = { id: null };
+
+  deleteEvent() {
+    if (!this.clickedEventInfo.id) {
+      console.error("could not find eventid");
+      return;
+    }
+    const csrf = document.head.querySelector("meta[name=csrf-token]")?.content;
+    const req = new Request(`/api/v1/events/${this.clickedEventInfo.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json", "X-CSRF-Token": csrf },
+    });
+    fetch(req).then((response) => {
+      console.log(response.json());
+      const clickedEvent = this.calendar.getEventById(this.clickedEventInfo.id);
+      clickedEvent.remove();
+      this.clickedEventInfo.id = null;
+    });
+  }
 
   saveEvent() {
     const start = this.startTarget.value;
     const end = this.endTarget.value;
     const title = this.titleTarget.value;
-    // const userid = this.useridTarget.value;
-    // const eventid = this.eventidTarget.value;
-    // const savedEvent = this.eventData.find((e) => e.start === start);
-
-    // if (!savedEvent) {
-    //   console.error("could not find event");
-    //   return;
-    // }
 
     if (!this.userid) {
       console.error("could not find userid");
@@ -42,7 +42,6 @@ export default class extends Controller {
       console.error("could not find eventid");
       return;
     }
-    //const calendarEvent = this.calendar.getEventById();
 
     const myEvent = {
       title: title,
@@ -91,7 +90,7 @@ export default class extends Controller {
           titleTargetElement.value = clickedEvent.title;
         } else {
           const myEvent = {
-            title: "defaultName",
+            title: "defaultEventName",
             start: info.dateStr,
             end: info.dateStr,
           };
@@ -104,10 +103,10 @@ export default class extends Controller {
             },
           });
 
-          // fetch(req).then((response) => {
-          //   console.log(response.json());
-          // });
-          // calendar.addEvent(myEvent);
+          fetch(req).then((response) => {
+            console.log(response.json());
+          });
+          calendar.addEvent(myEvent);
         }
       },
     });
@@ -118,7 +117,6 @@ export default class extends Controller {
       .then((response) => response.json())
       .then((events) => {
         console.log("events", events);
-        this.eventData = events;
 
         events.forEach((event) => {
           this.userid = event.user_id;
@@ -129,7 +127,6 @@ export default class extends Controller {
             id: event.id,
           });
         });
-        console.log(this.calendar.getEvents());
         console.log("calendar render complete");
       });
   }

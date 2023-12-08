@@ -6,17 +6,18 @@
   </head>
   <body>
     <div data-controller="calendar" id='calendar'>
-    <h1>Event Title</h1>
+    <h1>Edit Event</h1>
     Start
     <input data-calendar-target="start" type="text" />
     End
     <input data-calendar-target="end" type="text"  />
     Title
     <input data-calendar-target="title" type="text" />
-    <input data-calendar-target="userid" type="text" class="hidden" />
-    <input data-calendar-target="eventid" type="text" class="hidden" />
     <button data-calendar-target="save" data-action="click->calendar#saveEvent" class="btn-primary">
     Save Event
+    </button>
+    <button data-calendar-target="delete" data-action="click->calendar#deleteEvent" class="btn-primary">
+    Delete Event
     </button>
     </div>
     <%= link_to "Back", '/', class:'btn-primary'  %>
