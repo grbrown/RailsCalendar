@@ -5,7 +5,20 @@
 
   </head>
   <body>
-    <div data-controller="calendar" id='calendar'></div>
+    <div data-controller="calendar" id='calendar'>
+    <h1>Event Title</h1>
+    Start
+    <input data-calendar-target="start" type="text" />
+    End
+    <input data-calendar-target="end" type="text"  />
+    Title
+    <input data-calendar-target="title" type="text" />
+    <input data-calendar-target="userid" type="text" class="hidden" />
+    <input data-calendar-target="eventid" type="text" class="hidden" />
+    <button data-calendar-target="save" data-action="click->calendar#saveEvent" class="btn-primary">
+    Save Event
+    </button>
+    </div>
     <%= link_to "Back", '/', class:'btn-primary'  %>
   </body>
 </html>
