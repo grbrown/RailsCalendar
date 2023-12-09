@@ -103,10 +103,18 @@ export default class extends Controller {
             },
           });
 
-          fetch(req).then((response) => {
-            console.log(response.json());
-          });
-          calendar.addEvent(myEvent);
+          fetch(req)
+            .then((response) => response.json())
+            .then((event) => {
+              console.log(event);
+              const eventWithNewId = {
+                title: event.title,
+                start: event.start,
+                end: event.end,
+                id: `${event.id}`,
+              };
+              this.addEvent(eventWithNewId);
+            });
         }
       },
     });
